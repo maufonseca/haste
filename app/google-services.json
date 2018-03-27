@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "430090282842",
+    "firebase_url": "https://haste-tasks.firebaseio.com",
+    "project_id": "haste-tasks",
+    "storage_bucket": "haste-tasks.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:430090282842:android:99b1aa0453da7699",
+        "android_client_info": {
+          "package_name": "com.maufonseca.haste"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "430090282842-j1j0giaq45stplnn94nggfjj30rjvj67.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.maufonseca.haste",
+            "certificate_hash": "a5f96dfab7e50ef82d2cbb6c90f17c06b91cb7ce"
+          }
+        },
+        {
+          "client_id": "430090282842-tslnimn546v6jnbc8e8gbc70lpl1ur26.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAfZNE0sdZirGahmuZ8wHLz2hq8DUeecR0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "430090282842-tslnimn546v6jnbc8e8gbc70lpl1ur26.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

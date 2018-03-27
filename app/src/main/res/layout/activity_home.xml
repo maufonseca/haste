@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  tools:context=".presentation.home.Home">
+  <RelativeLayout
+    android:id="@+id/creation_box"
+    android:layout_alignParentBottom="true"
+    android:orientation="horizontal"
+    android:layout_width="wrap_content"
+    android:layout_height="80dp">
+
+    <ImageButton
+      android:id="@+id/send_button"
+      android:layout_centerVertical="true"
+      android:layout_alignParentEnd="true"
+      android:src="@drawable/ic_flash_on_black_24dp"
+      style="@style/Base.Widget.AppCompat.Button.Borderless"
+      android:layout_width="48dp"
+      android:layout_height="48dp"
+      android:layout_margin="8dp"
+      android:onClick="fastCreateTask"/>
+    <EditText
+      android:hint="Nova tarefa"
+      android:background="@color/transparentGray"
+      android:layout_toStartOf="@+id/send_button"
+      android:layout_centerVertical="true"
+      android:id="@+id/new_task_edit_text"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_margin="8dp"/>
+  </RelativeLayout>
+
+  <android.support.v7.widget.RecyclerView
+    android:layout_above="@+id/creation_box"
+    android:id="@+id/task_recyclerview"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" />
+</RelativeLayout>
