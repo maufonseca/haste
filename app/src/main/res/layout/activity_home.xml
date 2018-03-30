@@ -22,7 +22,7 @@
       android:layout_width="48dp"
       android:layout_height="48dp"
       android:layout_margin="8dp"
-      android:onClick="createTask"/>
+      android:onClick="createRush"/>
     <EditText
       android:hint="Nova tarefa"
       android:layout_toStartOf="@+id/send_button"

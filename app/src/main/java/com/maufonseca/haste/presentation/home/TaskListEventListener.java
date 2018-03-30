@@ -56,7 +56,16 @@ public class TaskListEventListener implements ChildEventListener {
   @Override
   public void onChildRemoved(DataSnapshot dataSnapshot) {
     Log.d(TAG, "onChildRemoved:" + dataSnapshot.getKey());
-    String taskKey = dataSnapshot.getKey();
+    Rush deletedRush = dataSnapshot.getValue(Rush.class);
+    int index = 0;
+    for(int i=0; i<rushes.size(); i++) {
+      if(dataSnapshot.getKey().equals(rushes.get(i).getId())) {
+        index = i;
+        break;
+      }
+    }
+    rushes.remove(index);
+    adapter.notifyDataSetChanged();
 
   }
 

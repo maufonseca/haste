@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -48,6 +49,29 @@ public class Home extends AppCompatActivity {
     recyclerView = findViewById(R.id.task_recyclerview);
     recyclerView.setAdapter(adapter);
     recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+    ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN,  ItemTouchHelper.RIGHT) {
+      @Override
+      public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+        //awesome code when user grabs recycler card to reorder
+        return false;
+      }
+
+      @Override
+      public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+        super.clearView(recyclerView, viewHolder);
+        //awesome code to run when user drops card and completes reorder
+      }
+
+      @Override
+      public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+        Rush swipedRush = rushes.get(viewHolder.getAdapterPosition());
+        deleteRush(swipedRush);
+      }
+    };
+    ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
+    itemTouchHelper.attachToRecyclerView(recyclerView);
+
     taskListEventListener = new TaskListEventListener(this, rushes, adapter);
     currentUser = firebaseAuth.getCurrentUser();
     if(currentUser==null) {
@@ -55,13 +79,6 @@ public class Home extends AppCompatActivity {
     } else {
       updateUI(currentUser);
     }
-  }
-
-  @Override
-  public void onStart() {
-    super.onStart();
-    // Check if user is signed in (non-null) and update UI accordingly.
-
   }
 
   private void signInAnonymously() {
@@ -91,12 +108,16 @@ public class Home extends AppCompatActivity {
       rushesReference.addChildEventListener(taskListEventListener);
     }
   }
-  public void createTask(View v) {
+  public void createRush(View v) {
     Rush newRush = new Rush();
     newRush.setDescription(fastCreateEditText.getText().toString());
     newRush.setDone(false);
     rushesReference.push().setValue(newRush);
     fastCreateEditText.setText("");
+  }
+
+  public void deleteRush(Rush rush) {
+    rushesReference.child(rush.getId()).removeValue();
   }
 
   public void rushCheckTapped(View v) {
