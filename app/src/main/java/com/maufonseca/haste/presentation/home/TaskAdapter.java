@@ -1,15 +1,17 @@
 package com.maufonseca.haste.presentation.home;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.maufonseca.haste.R;
-import com.maufonseca.haste.model.Task;
+import com.maufonseca.haste.model.Rush;
 
 import java.util.ArrayList;
 
@@ -19,17 +21,17 @@ import java.util.ArrayList;
 
 public class TaskAdapter extends RecyclerView.Adapter {
 
-  private ArrayList<Task> tasks;
+  private ArrayList<Rush> rushes;
   private Context context;
 
-  public TaskAdapter(Context context, ArrayList<Task> tasks) {
-    this.tasks = tasks;
+  public TaskAdapter(Context context, ArrayList<Rush> rushes) {
+    this.rushes = rushes;
     this.context = context;
   }
 
   @Override
   public int getItemCount() {
-    return tasks.size();
+    return rushes.size();
   }
 
   @Override
@@ -40,18 +42,26 @@ public class TaskAdapter extends RecyclerView.Adapter {
 
   @Override
   public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-    Task currentTask = tasks.get(position);
+    Rush currentRush = rushes.get(position);
     Holder vh = (Holder) holder;
-    vh.description.setText(currentTask.getDescription());
-    vh.box.setChecked(currentTask.getDone());
+    vh.description.setText(currentRush.getDescription());
+    vh.box.setChecked(currentRush.getDone());
+    if(currentRush.getDone()) {
+      vh.description.setPaintFlags(vh.description.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+    } else {
+      vh.description.setPaintFlags(vh.description.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+    }
+    vh.box.setTag(currentRush);
   }
 
   private class Holder extends RecyclerView.ViewHolder {
     CheckBox box;
     TextView description;
+    LinearLayout layout;
 
     public Holder(View itemView) {
       super(itemView);
+      layout = itemView.findViewById(R.id.cell_layout);
       box = itemView.findViewById(R.id.checkbox);
       description = itemView.findViewById(R.id.description_textview);
 

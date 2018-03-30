@@ -8,11 +8,11 @@
   tools:context=".presentation.home.Home">
   <RelativeLayout
     android:id="@+id/creation_box"
+    android:background="@color/transparentGray"
     android:layout_alignParentBottom="true"
     android:orientation="horizontal"
     android:layout_width="wrap_content"
     android:layout_height="80dp">
-
     <ImageButton
       android:id="@+id/send_button"
       android:layout_centerVertical="true"
@@ -22,10 +22,9 @@
       android:layout_width="48dp"
       android:layout_height="48dp"
       android:layout_margin="8dp"
-      android:onClick="fastCreateTask"/>
+      android:onClick="createTask"/>
     <EditText
       android:hint="Nova tarefa"
-      android:background="@color/transparentGray"
       android:layout_toStartOf="@+id/send_button"
       android:layout_centerVertical="true"
       android:id="@+id/new_task_edit_text"
@@ -34,9 +33,34 @@
       android:layout_margin="8dp"/>
   </RelativeLayout>
 
-  <android.support.v7.widget.RecyclerView
+  <RelativeLayout
     android:layout_above="@+id/creation_box"
-    android:id="@+id/task_recyclerview"
+    android:gravity="end"
+    android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" />
+    android:layout_height="match_parent">
+    <android.support.v7.widget.RecyclerView
+      android:layout_marginEnd="56dp"
+      android:id="@+id/task_recyclerview"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent" />
+    <LinearLayout
+      android:layout_alignParentEnd="true"
+      android:background="@color/transparentGray"
+      android:orientation="vertical"
+      android:layout_width="56dp"
+      android:layout_height="match_parent">
+      <ImageView
+        android:src="@mipmap/ic_launcher"
+        android:layout_width="56dp"
+        android:layout_height="56dp" />
+    </LinearLayout>
+  </RelativeLayout>
+
+  <ProgressBar
+    android:id="@+id/progressbar"
+    android:layout_centerInParent="true"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:visibility="gone"/>
 </RelativeLayout>
