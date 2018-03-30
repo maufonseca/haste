@@ -23,18 +23,20 @@
     <android.support.design.widget.FloatingActionButton
       android:id="@+id/send_button"
       android:layout_centerVertical="true"
-      android:src="@drawable/ic_flash_on_black_24dp"
       android:layout_alignParentEnd="true"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_margin="8dp"
       app:elevation="0dp"
-      app:rippleColor="@color/lightBlue500"
-      app:backgroundTint="@color/blueGray100"
+      app:rippleColor="@color/blueGray900"
+      android:tint="@color/blueGray100"
+      app:backgroundTint="@color/lightBlue500"
+      android:src="@drawable/ic_file_upload_black_24dp"
       android:onClick="createRush"/>
     <EditText
       android:id="@+id/new_task_edit_text"
-      android:hint="Nova tarefa"
+      android:background="@color/blueGray100"
+      android:hint="@string/new_rush"
       android:layout_centerVertical="true"
       android:layout_toStartOf="@+id/send_button"
       android:layout_width="match_parent"
@@ -45,31 +47,33 @@
       android:layout_marginBottom="4dp"/>
   </RelativeLayout>
 
-    <android.support.v7.widget.RecyclerView
-      android:id="@+id/task_recyclerview"
-      android:layout_marginStart="52dp"
-      android:clipToPadding="false"
-      android:paddingBottom="84dp"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent" />
-    <LinearLayout
-      android:background="@drawable/ripple_bar"
-      android:clickable="true"
-      android:focusable="true"
-      android:orientation="vertical"
-      android:layout_width="48dp"
-      android:layout_height="match_parent">
-      <ImageView
-        android:src="@drawable/ic_logo"
-        android:layout_gravity="center"
-        android:layout_width="32dp"
-        android:layout_height="48dp" />
-    </LinearLayout>
+  <android.support.v7.widget.RecyclerView
+    android:id="@+id/task_recyclerview"
+    android:layout_marginStart="52dp"
+    android:clipToPadding="false"
+    android:paddingBottom="84dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" />
+  <LinearLayout
+    android:background="@drawable/ripple_bar"
+    android:clickable="true"
+    android:focusable="true"
+    android:orientation="vertical"
+    android:layout_width="48dp"
+    android:layout_height="match_parent">
+    <ProgressBar
+      android:id="@+id/progressbar"
+      android:layout_gravity="center"
+      android:indeterminateTint="@color/blueGray100"
+      android:layout_width="32dp"
+      android:layout_height="48dp"
+      android:visibility="gone"/>
+    <ImageView
+      android:layout_gravity="center"
+      android:layout_width="32dp"
+      android:layout_height="48dp"
+      android:src="@drawable/ic_haste"
+      android:tint="@color/blueGray100"/>
+  </LinearLayout>
 
-  <ProgressBar
-    android:id="@+id/progressbar"
-    android:layout_centerInParent="true"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:visibility="gone"/>
 </RelativeLayout>

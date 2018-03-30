@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">Haste</string>
+  <string name="app_name">Haste</string>
+  <string name="new_rush">O que fazer?</string>
 </resources>
