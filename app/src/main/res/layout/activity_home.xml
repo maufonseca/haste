@@ -29,13 +29,13 @@
       android:layout_margin="8dp"
       app:elevation="0dp"
       app:rippleColor="@color/blueGray900"
-      android:tint="@color/blueGray100"
+      android:tint="@color/blueGray050"
       app:backgroundTint="@color/lightBlue500"
       android:src="@drawable/ic_file_upload_black_24dp"
       android:onClick="createRush"/>
     <EditText
       android:id="@+id/new_task_edit_text"
-      android:background="@color/blueGray100"
+      android:background="@android:color/transparent"
       android:hint="@string/new_rush"
       android:layout_centerVertical="true"
       android:layout_toStartOf="@+id/send_button"
@@ -73,7 +73,7 @@
       android:layout_width="32dp"
       android:layout_height="48dp"
       android:src="@drawable/ic_haste"
-      android:tint="@color/blueGray100"/>
+      android:tint="@color/blueGray050"/>
   </LinearLayout>
 
 </RelativeLayout>

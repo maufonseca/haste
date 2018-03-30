@@ -48,11 +48,9 @@ public class TaskAdapter extends RecyclerView.Adapter {
     vh.description.setText(currentRush.getDescription());
     if(currentRush.getDone()) {
       vh.description.setPaintFlags(vh.description.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-      vh.checkmark.setVisibility(View.VISIBLE);
       vh.layout.setBackground(ContextCompat.getDrawable(context, R.drawable.ripple_cell_done));
     } else {
       vh.description.setPaintFlags(vh.description.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
-      vh.checkmark.setVisibility(View.INVISIBLE);
       vh.layout.setBackground(ContextCompat.getDrawable(context, R.drawable.ripple_cell_undone));
     }
     vh.layout.setTag(currentRush);
