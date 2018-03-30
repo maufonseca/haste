@@ -7,7 +7,7 @@
   android:orientation="vertical"
   android:clickable="true"
   android:focusable="true"
-  android:background="@drawable/ripple_cell"
+  android:background="@drawable/ripple_cell_undone"
   android:onClick="rushCheckTapped">
   <View
     android:background="@color/blueGray050"
@@ -16,18 +16,20 @@
   <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-    <CheckBox
-      android:id="@+id/checkbox"
-      android:layout_marginStart="8dp"
-      android:layout_marginTop="8dp"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"/>
+    <ImageView
+      android:id="@+id/check_image"
+      android:layout_alignParentEnd="true"
+      android:layout_width="48dp"
+      android:layout_height="48dp"
+      android:src="@drawable/ic_checkmark"
+      android:tint="@android:color/white"
+      android:visibility="invisible"/>
     <TextView
       android:layout_margin="8dp"
-      android:layout_toEndOf="@+id/checkbox"
       android:id="@+id/description_textview"
       android:layout_width="match_parent"
       android:layout_height="wrap_content" />
+
   </RelativeLayout>
 
 </LinearLayout>

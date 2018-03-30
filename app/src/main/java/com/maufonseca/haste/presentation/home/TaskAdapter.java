@@ -2,11 +2,12 @@ package com.maufonseca.haste.presentation.home;
 
 import android.content.Context;
 import android.graphics.Paint;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -45,24 +46,27 @@ public class TaskAdapter extends RecyclerView.Adapter {
     Rush currentRush = rushes.get(position);
     Holder vh = (Holder) holder;
     vh.description.setText(currentRush.getDescription());
-    vh.box.setChecked(currentRush.getDone());
     if(currentRush.getDone()) {
       vh.description.setPaintFlags(vh.description.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+      vh.checkmark.setVisibility(View.VISIBLE);
+      vh.layout.setBackground(ContextCompat.getDrawable(context, R.drawable.ripple_cell_done));
     } else {
       vh.description.setPaintFlags(vh.description.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+      vh.checkmark.setVisibility(View.INVISIBLE);
+      vh.layout.setBackground(ContextCompat.getDrawable(context, R.drawable.ripple_cell_undone));
     }
     vh.layout.setTag(currentRush);
   }
 
   private class Holder extends RecyclerView.ViewHolder {
-    CheckBox box;
+    ImageView checkmark;
     TextView description;
     LinearLayout layout;
 
     public Holder(View itemView) {
       super(itemView);
       layout = itemView.findViewById(R.id.cell_layout);
-      box = itemView.findViewById(R.id.checkbox);
+      checkmark = itemView.findViewById(R.id.check_image);
       description = itemView.findViewById(R.id.description_textview);
 
     }
