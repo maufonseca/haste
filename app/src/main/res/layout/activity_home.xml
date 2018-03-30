@@ -51,8 +51,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"-->
     <android.support.v7.widget.RecyclerView
-      android:layout_marginStart="52dp"
       android:id="@+id/task_recyclerview"
+      android:layout_marginStart="52dp"
+      android:clipToPadding="false"
+      android:paddingBottom="84dp"
       android:layout_width="match_parent"
       android:layout_height="match_parent" />
     <LinearLayout
