@@ -11,7 +11,7 @@
 
   <RelativeLayout
     android:id="@+id/creation_box"
-    android:background="@color/blueGray200"
+    android:background="@color/blueGray050"
     android:layout_alignParentBottom="true"
     android:elevation="4dp"
     android:orientation="horizontal"
