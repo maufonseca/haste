@@ -5,23 +5,30 @@
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
+  android:background="@color/blueGray050"
+  android:focusableInTouchMode="true"
   tools:context=".presentation.home.Home">
+
   <RelativeLayout
     android:id="@+id/creation_box"
-    android:background="@color/transparentGray"
+    android:background="@color/blueGray200"
     android:layout_alignParentBottom="true"
+    android:elevation="4dp"
     android:orientation="horizontal"
     android:layout_width="wrap_content"
     android:layout_height="80dp">
-    <ImageButton
+
+    <android.support.design.widget.FloatingActionButton
       android:id="@+id/send_button"
       android:layout_centerVertical="true"
-      android:layout_alignParentEnd="true"
       android:src="@drawable/ic_flash_on_black_24dp"
-      style="@style/Base.Widget.AppCompat.Button.Borderless"
-      android:layout_width="48dp"
-      android:layout_height="48dp"
+      android:layout_alignParentEnd="true"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
       android:layout_margin="8dp"
+      android:elevation="8dp"
+      app:rippleColor="@color/lightBlue500"
+      app:backgroundTint="@color/blueGray400"
       android:onClick="createRush"/>
     <EditText
       android:hint="Nova tarefa"
@@ -35,25 +42,26 @@
 
   <RelativeLayout
     android:layout_above="@+id/creation_box"
-    android:gravity="end"
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <android.support.v7.widget.RecyclerView
-      android:layout_marginEnd="56dp"
+      android:layout_marginStart="52dp"
       android:id="@+id/task_recyclerview"
       android:layout_width="match_parent"
       android:layout_height="match_parent" />
     <LinearLayout
-      android:layout_alignParentEnd="true"
-      android:background="@color/transparentGray"
+      android:background="@drawable/ripple_bar"
+      android:clickable="true"
+      android:focusable="true"
       android:orientation="vertical"
-      android:layout_width="56dp"
+      android:layout_width="48dp"
       android:layout_height="match_parent">
       <ImageView
-        android:src="@mipmap/ic_launcher"
-        android:layout_width="56dp"
-        android:layout_height="56dp" />
+        android:src="@drawable/ic_logo"
+        android:layout_gravity="center"
+        android:layout_width="32dp"
+        android:layout_height="48dp" />
     </LinearLayout>
   </RelativeLayout>
 

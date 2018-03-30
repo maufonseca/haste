@@ -109,11 +109,14 @@ public class Home extends AppCompatActivity {
     }
   }
   public void createRush(View v) {
-    Rush newRush = new Rush();
-    newRush.setDescription(fastCreateEditText.getText().toString());
-    newRush.setDone(false);
-    rushesReference.push().setValue(newRush);
-    fastCreateEditText.setText("");
+    if(!fastCreateEditText.getText().toString().isEmpty()) {
+      Rush newRush = new Rush();
+      newRush.setDescription(fastCreateEditText.getText().toString());
+      newRush.setDone(false);
+      rushesReference.push().setValue(newRush);
+      fastCreateEditText.setText("");
+    }
+
   }
 
   public void deleteRush(Rush rush) {

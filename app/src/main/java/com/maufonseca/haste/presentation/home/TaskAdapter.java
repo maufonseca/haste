@@ -51,7 +51,7 @@ public class TaskAdapter extends RecyclerView.Adapter {
     } else {
       vh.description.setPaintFlags(vh.description.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
     }
-    vh.box.setTag(currentRush);
+    vh.layout.setTag(currentRush);
   }
 
   private class Holder extends RecyclerView.ViewHolder {
