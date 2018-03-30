@@ -11,8 +11,10 @@
 
   <RelativeLayout
     android:id="@+id/creation_box"
-    android:background="@color/blueGray050"
+    android:background="@color/blueGray050alpha"
     android:layout_alignParentBottom="true"
+    android:clickable="true"
+    android:focusable="true"
     android:elevation="4dp"
     android:orientation="horizontal"
     android:layout_width="wrap_content"
@@ -26,25 +28,28 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_margin="8dp"
-      android:elevation="8dp"
+      app:elevation="0dp"
       app:rippleColor="@color/lightBlue500"
-      app:backgroundTint="@color/blueGray400"
+      app:backgroundTint="@color/blueGray100"
       android:onClick="createRush"/>
     <EditText
-      android:hint="Nova tarefa"
-      android:layout_toStartOf="@+id/send_button"
-      android:layout_centerVertical="true"
       android:id="@+id/new_task_edit_text"
+      android:hint="Nova tarefa"
+      android:layout_centerVertical="true"
+      android:layout_toStartOf="@+id/send_button"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:layout_margin="8dp"/>
+      android:layout_marginStart="56dp"
+      android:layout_marginEnd="8dp"
+      android:layout_marginTop="4dp"
+      android:layout_marginBottom="4dp"/>
   </RelativeLayout>
 
-  <RelativeLayout
+  <!--RelativeLayout
     android:layout_above="@+id/creation_box"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"-->
     <android.support.v7.widget.RecyclerView
       android:layout_marginStart="52dp"
       android:id="@+id/task_recyclerview"
@@ -63,7 +68,7 @@
         android:layout_width="32dp"
         android:layout_height="48dp" />
     </LinearLayout>
-  </RelativeLayout>
+  <!--/RelativeLayout-->
 
   <ProgressBar
     android:id="@+id/progressbar"
