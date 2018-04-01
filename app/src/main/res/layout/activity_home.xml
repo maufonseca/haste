@@ -9,43 +9,7 @@
   android:focusableInTouchMode="true"
   tools:context=".presentation.home.Home">
 
-  <RelativeLayout
-    android:id="@+id/creation_box"
-    android:background="@color/blueGray050alpha"
-    android:layout_alignParentBottom="true"
-    android:clickable="true"
-    android:focusable="true"
-    android:elevation="4dp"
-    android:orientation="horizontal"
-    android:layout_width="wrap_content"
-    android:layout_height="80dp">
-
-    <android.support.design.widget.FloatingActionButton
-      android:id="@+id/send_button"
-      android:layout_centerVertical="true"
-      android:layout_alignParentEnd="true"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_margin="8dp"
-      app:elevation="0dp"
-      app:rippleColor="@color/blueGray900"
-      android:tint="@color/blueGray050"
-      app:backgroundTint="@color/lightBlue500"
-      android:src="@drawable/ic_file_upload_black_24dp"
-      android:onClick="createRush"/>
-    <EditText
-      android:id="@+id/new_task_edit_text"
-      android:background="@android:color/transparent"
-      android:hint="@string/new_rush"
-      android:layout_centerVertical="true"
-      android:layout_toStartOf="@+id/send_button"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_marginStart="56dp"
-      android:layout_marginEnd="8dp"
-      android:layout_marginTop="4dp"
-      android:layout_marginBottom="4dp"/>
-  </RelativeLayout>
+  <include layout="@layout/box_new_rush"/>
 
   <android.support.v7.widget.RecyclerView
     android:id="@+id/task_recyclerview"

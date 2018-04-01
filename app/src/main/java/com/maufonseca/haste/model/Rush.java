@@ -7,11 +7,13 @@ package com.maufonseca.haste.model;
 public class Rush {
   private String description, id;
   private Boolean done;
+  private int position;
 
   public Rush() {
     description = "";
     done = false;
     id = "";
+    position = 0;
   }
 
   public String getDescription() {
@@ -36,5 +38,13 @@ public class Rush {
 
   public void setId(String id) {
     this.id = id;
+  }
+
+  public int getPosition() {
+    return position;
+  }
+
+  public void setPosition(int position) {
+    this.position = position;
   }
 }

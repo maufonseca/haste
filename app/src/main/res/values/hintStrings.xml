@@ -1,0 +1,12 @@
+<resources>
+  <string name="new_rush0">O que fazer?</string>
+  <string name="new_rush1">Bom já é suficiente?</string>
+  <string name="new_rush2">Melhorias!?</string>
+  <string name="new_rush3">Pense positivo</string>
+  <string name="new_rush4">Aguardando comando</string>
+  <string name="new_rush5">Alguma ideia nova?</string>
+  <string name="new_rush6">Faça seu melhor</string>
+  <string name="new_rush7">Dê-me uma ordem</string>
+  <string name="new_rush8">Estou com pressa!</string>
+  <string name="new_rush9">Não temos o dia todo</string>
+</resources>

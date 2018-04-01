@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -21,11 +20,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.maufonseca.haste.R;
 import com.maufonseca.haste.model.Rush;
-
-import java.util.ArrayList;
+import com.maufonseca.haste.model.RushList;
+import com.maufonseca.haste.presentation.helper.NetworkWorker;
+import com.maufonseca.haste.presentation.helper.RushBoxWorker;
 
 public class Home extends AppCompatActivity {
-  ArrayList<Rush> rushes;
+  RushList rushes;
   RecyclerView recyclerView;
   TaskAdapter adapter;
   EditText fastCreateEditText;
@@ -43,18 +43,18 @@ public class Home extends AppCompatActivity {
     firebaseAuth = FirebaseAuth.getInstance();
     database = FirebaseDatabase.getInstance();
     fastCreateEditText = findViewById(R.id.new_task_edit_text);
-    rushes = new ArrayList<>();
+    rushes = new RushList();
     adapter = new TaskAdapter(this, rushes);
     progressBar = findViewById(R.id.progressbar);
     recyclerView = findViewById(R.id.task_recyclerview);
     recyclerView.setAdapter(adapter);
     recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-    ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0,  ItemTouchHelper.RIGHT) {
+    ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP|ItemTouchHelper.DOWN,  ItemTouchHelper.RIGHT) {
       @Override
       public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
         //awesome code when user grabs recycler card to reorder
-        return false; //true if assumed target position
+        return true; //true if assumed target position
       }
 
       @Override
@@ -81,24 +81,35 @@ public class Home extends AppCompatActivity {
     }
   }
 
+  @Override
+  protected void onStart() {
+    super.onStart();
+    setupNewRushBox();
+  }
+
+  private void setupNewRushBox() {
+    fastCreateEditText.setHint(RushBoxWorker.getInstance().getBoxHint(this));
+  }
+
   private void signInAnonymously() {
-    progressBar.setVisibility(View.VISIBLE);
-    firebaseAuth.signInAnonymously().addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-      @Override
-      public void onComplete(@NonNull Task<AuthResult> task) {
-        if (task.isSuccessful()) {
-          // Sign in success, update UI with the signed-in user's information
-          Log.d("FIREBASE", "signInAnonymously:success");
-          FirebaseUser user = firebaseAuth.getCurrentUser();
-          updateUI(user);
-        } else {
-          // If sign in fails, display a message to the user.
-          Log.w("FIREBASE", "signInAnonymously:failure", task.getException());
-          Toast.makeText(Home.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
+    if(NetworkWorker.getInstance().isOnline(this)) {
+      progressBar.setVisibility(View.VISIBLE);
+      firebaseAuth.signInAnonymously().addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+        @Override
+        public void onComplete(@NonNull Task<AuthResult> task) {
+          progressBar.setVisibility(View.GONE);
+          if (task.isSuccessful()) {
+            // Sign in success, update UI with the signed-in user's information
+            Toast.makeText(Home.this, getText(R.string.success_silent_auth), Toast.LENGTH_SHORT).show();
+            FirebaseUser user = firebaseAuth.getCurrentUser();
+            updateUI(user);
+          } else {
+            // If sign in fails, display a message to the user.
+            Toast.makeText(Home.this, getText(R.string.error_silent_auth), Toast.LENGTH_SHORT).show();
+          }
         }
-        progressBar.setVisibility(View.GONE);
-      }
-    });
+      });
+    }
   }
 
   private void updateUI(FirebaseUser user) {
@@ -116,7 +127,6 @@ public class Home extends AppCompatActivity {
       rushesReference.push().setValue(newRush);
       fastCreateEditText.setText("");
     }
-
   }
 
   public void deleteRush(Rush rush) {

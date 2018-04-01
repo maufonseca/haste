@@ -9,6 +9,7 @@ import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.maufonseca.haste.model.Rush;
+import com.maufonseca.haste.model.RushList;
 
 import java.util.ArrayList;
 
@@ -19,11 +20,11 @@ import java.util.ArrayList;
 public class TaskListEventListener implements ChildEventListener {
 
   String TAG = "FirebaseTaskListener";
-  ArrayList<Rush> rushes;
+  RushList rushes;
   TaskAdapter adapter;
   Context context;
 
-  public TaskListEventListener(Context context, ArrayList<Rush> rushes, TaskAdapter adapter) {
+  public TaskListEventListener(Context context, RushList rushes, TaskAdapter adapter) {
     this.rushes = rushes;
     this.adapter = adapter;
     this.context = context;

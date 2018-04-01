@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.maufonseca.haste.R;
 import com.maufonseca.haste.model.Rush;
+import com.maufonseca.haste.model.RushList;
 
 import java.util.ArrayList;
 
@@ -22,10 +23,10 @@ import java.util.ArrayList;
 
 public class TaskAdapter extends RecyclerView.Adapter {
 
-  private ArrayList<Rush> rushes;
+  private RushList rushes;
   private Context context;
 
-  public TaskAdapter(Context context, ArrayList<Rush> rushes) {
+  public TaskAdapter(Context context, RushList rushes) {
     this.rushes = rushes;
     this.context = context;
   }

@@ -1,0 +1,4 @@
+<resources>
+  <string name="error_not_connected">Verifique sua conexão com a internet</string>
+  <string name="error_silent_auth">Autenticação silenciosa falhou</string>
+</resources>
