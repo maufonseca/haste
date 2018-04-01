@@ -11,7 +11,21 @@
   <color name="blueGray700">#455A64</color>
   <color name="blueGray800">#37474F</color>
   <color name="blueGray900">#263238</color>
+
   <color name="lightBlue500">#03A9F4</color>
+
+  <color name="lightGreen050">#F1F8E9</color>
+  <color name="lightGreen100">#DCEDC8</color>
   <color name="lightGreen200">#C5E1A5</color>
+  <color name="lightGreen300">#AED581</color>
   <color name="lightGreen400">#9CCC65</color>
+  <color name="lightGreen500">#8BC34A</color>
+  <color name="lightGreen600">#7CB342</color>
+  <color name="lightGreen700">#689F38</color>
+  <color name="lightGreen800">#558B2F</color>
+  <color name="lightGreen900">#33691E</color>
+  <color name="lightGreenA100">#CCFF90</color>
+  <color name="lightGreenA200">#B2FF59</color>
+  <color name="lightGreenA400">#76FF03</color>
+  <color name="lightGreenA700">#64DD17</color>
 </resources>
