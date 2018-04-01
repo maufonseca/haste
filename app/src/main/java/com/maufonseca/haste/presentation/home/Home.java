@@ -1,6 +1,5 @@
 package com.maufonseca.haste.presentation.home;
 
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,37 +10,27 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.maufonseca.haste.R;
 import com.maufonseca.haste.model.Rush;
 import com.maufonseca.haste.model.RushList;
-import com.maufonseca.haste.presentation.helper.NetworkWorker;
 import com.maufonseca.haste.presentation.helper.RushBoxWorker;
+import com.maufonseca.haste.presentation.helper.SignUpWorker;
 
 public class Home extends AppCompatActivity {
   RushList rushes;
   RecyclerView recyclerView;
   TaskAdapter adapter;
   EditText fastCreateEditText;
-  FirebaseDatabase database;
-  DatabaseReference rushesReference;
-  TaskListEventListener taskListEventListener;
-  FirebaseAuth firebaseAuth;
+  SignUpWorker signUpWorker;
   ProgressBar progressBar;
-  FirebaseUser currentUser;
+  HomePresenter homePresenter;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_home);
-    firebaseAuth = FirebaseAuth.getInstance();
-    database = FirebaseDatabase.getInstance();
+    signUpWorker = SignUpWorker.getInstance();
     fastCreateEditText = findViewById(R.id.new_task_edit_text);
     rushes = new RushList();
     adapter = new TaskAdapter(this, rushes);
@@ -65,20 +54,15 @@ public class Home extends AppCompatActivity {
 
       @Override
       public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-        Rush swipedRush = rushes.get(viewHolder.getAdapterPosition());
-        deleteRush(swipedRush);
+        deleteRush(viewHolder.getAdapterPosition());
       }
     };
     ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
     itemTouchHelper.attachToRecyclerView(recyclerView);
 
-    taskListEventListener = new TaskListEventListener(this, rushes, adapter);
-    currentUser = firebaseAuth.getCurrentUser();
-    if(currentUser==null) {
-      signInAnonymously();
-    } else {
-      updateUI(currentUser);
-    }
+    TaskListEventListener taskListEventListener = new TaskListEventListener(this, rushes, adapter);
+    homePresenter = new HomePresenter(this, rushes, signUpWorker, taskListEventListener);
+    homePresenter.getCurrentUser();
   }
 
   @Override
@@ -87,55 +71,40 @@ public class Home extends AppCompatActivity {
     setupNewRushBox();
   }
 
+  public void updateUI(FirebaseUser user) {
+    if(user!=null)
+      homePresenter.setupFirebaseRealtimeDB(user.getUid());
+  }
+
   private void setupNewRushBox() {
     fastCreateEditText.setHint(RushBoxWorker.getInstance().getBoxHint(this));
   }
 
-  private void signInAnonymously() {
-    if(NetworkWorker.getInstance().isOnline(this)) {
-      progressBar.setVisibility(View.VISIBLE);
-      firebaseAuth.signInAnonymously().addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-        @Override
-        public void onComplete(@NonNull Task<AuthResult> task) {
-          progressBar.setVisibility(View.GONE);
-          if (task.isSuccessful()) {
-            // Sign in success, update UI with the signed-in user's information
-            Toast.makeText(Home.this, getText(R.string.success_silent_auth), Toast.LENGTH_SHORT).show();
-            FirebaseUser user = firebaseAuth.getCurrentUser();
-            updateUI(user);
-          } else {
-            // If sign in fails, display a message to the user.
-            Toast.makeText(Home.this, getText(R.string.error_silent_auth), Toast.LENGTH_SHORT).show();
-          }
-        }
-      });
-    }
+  public void showProgressBar() {
+    progressBar.setVisibility(View.VISIBLE);
   }
 
-  private void updateUI(FirebaseUser user) {
-    if(user!=null) {
-      String uid = user.getUid();
-      rushesReference = database.getReference("users/"+uid+"/rushes");
-      rushesReference.addChildEventListener(taskListEventListener);
-    }
+  public void hideProgressBar() {
+    progressBar.setVisibility(View.GONE);
   }
+
+  public void showToast(CharSequence message) {
+    Toast.makeText(Home.this, message, Toast.LENGTH_SHORT).show();
+  }
+
   public void createRush(View v) {
     if(!fastCreateEditText.getText().toString().trim().isEmpty()) {
-      Rush newRush = new Rush();
-      newRush.setDescription(fastCreateEditText.getText().toString());
-      newRush.setDone(false);
-      rushesReference.push().setValue(newRush);
+      homePresenter.createRush(fastCreateEditText.getText().toString());
       fastCreateEditText.setText("");
     }
   }
 
-  public void deleteRush(Rush rush) {
-    rushesReference.child(rush.getId()).removeValue();
+  public void deleteRush(int position) {
+    homePresenter.deleteRush(position);
   }
 
   public void rushCheckTapped(View v) {
-    Rush tappedRush = (Rush)v.getTag();
-    tappedRush.setDone(!tappedRush.getDone());
-    rushesReference.child(tappedRush.getId()).setValue(tappedRush);
+    Rush tappedRush = (Rush) v.getTag();
+    homePresenter.checkRush(tappedRush);
   }
 }
