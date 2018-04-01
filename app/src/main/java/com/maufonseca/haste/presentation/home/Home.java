@@ -120,7 +120,7 @@ public class Home extends AppCompatActivity {
     }
   }
   public void createRush(View v) {
-    if(!fastCreateEditText.getText().toString().isEmpty()) {
+    if(!fastCreateEditText.getText().toString().trim().isEmpty()) {
       Rush newRush = new Rush();
       newRush.setDescription(fastCreateEditText.getText().toString());
       newRush.setDone(false);
