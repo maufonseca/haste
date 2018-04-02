@@ -139,9 +139,11 @@ public class HomePresenter {
   }
 
   public void checkRush(final Rush tappedRush) {
+    tappedRush.setDone(!tappedRush.getDone());
+    home.refreshList();
     home.showProgressBar();
     Map<String, Object> rush = new HashMap<>();
-    rush.put("done", !tappedRush.getDone());
+    rush.put("done", tappedRush.getDone());
     rushesRef
         .document(tappedRush.getId())
         .set(rush, SetOptions.merge())
@@ -149,8 +151,6 @@ public class HomePresenter {
           @Override
           public void onSuccess(Void aVoid) {
             Log.d("FB", "DocumentSnapshot successfully written!");
-            tappedRush.setDone(!tappedRush.getDone());
-            home.refreshList();
             home.hideProgressBar();
           }
         })
@@ -158,6 +158,8 @@ public class HomePresenter {
           @Override
           public void onFailure(@NonNull Exception e) {
             Log.w("FB", "Error writing document", e);
+            tappedRush.setDone(!tappedRush.getDone());
+            home.refreshList();
             home.hideProgressBar();
           }
         });
