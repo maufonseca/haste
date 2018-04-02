@@ -50,7 +50,7 @@ public class HomePresenter {
     if(currentUser==null) {
       signUpWorker.signInAnonymously(home);
     } else {
-     getRushesForUser();
+      getRushesForUser();
     }
   }
 
@@ -130,12 +130,12 @@ public class HomePresenter {
           }
         })
         .addOnFailureListener(new OnFailureListener() {
-      @Override
-      public void onFailure(@NonNull Exception e) {
-        home.hideProgressBar();
-        Log.w("FB", "Error adding document", e);
-      }
-    });
+          @Override
+          public void onFailure(@NonNull Exception e) {
+            home.hideProgressBar();
+            Log.w("FB", "Error adding document", e);
+          }
+        });
   }
 
   public void checkRush(final Rush tappedRush) {
@@ -161,7 +161,10 @@ public class HomePresenter {
             home.hideProgressBar();
           }
         });
+  }
 
-
+  public void changePositions(int pos1, int pos2) {
+    rushes.changeRushes(pos1, pos2);
+    home.refreshList();
   }
 }

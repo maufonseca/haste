@@ -9,8 +9,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-
-import com.google.firebase.auth.FirebaseUser;
 import com.maufonseca.haste.R;
 import com.maufonseca.haste.model.Rush;
 import com.maufonseca.haste.model.RushList;
@@ -40,9 +38,11 @@ public class Home extends AppCompatActivity {
     recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
     ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP|ItemTouchHelper.DOWN,  ItemTouchHelper.RIGHT) {
+      private int pos1, pos2;
       @Override
       public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-        //awesome code when user grabs recycler card to reorder
+        pos1 = viewHolder.getAdapterPosition();
+        pos2 = target.getAdapterPosition();
         return true; //true if assumed target position
       }
 
@@ -50,6 +50,7 @@ public class Home extends AppCompatActivity {
       public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
         super.clearView(recyclerView, viewHolder);
         //awesome code to run when user drops card and completes reorder
+        homePresenter.changePositions(pos1, pos2);
       }
 
       @Override
@@ -69,7 +70,7 @@ public class Home extends AppCompatActivity {
     setupNewRushBox();
   }
 
-  public void updateUI() {
+  public void getRushesForUser() {
     homePresenter.getRushesForUser();
   }
 

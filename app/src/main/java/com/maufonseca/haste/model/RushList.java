@@ -22,7 +22,10 @@ public class RushList {
   public void reorder() {
     ArrayList<Rush> orderedArray = new ArrayList<>();
     for(Rush rush : rushes) {
-      orderedArray.add(rush.getPosition(), rush);
+      if(orderedArray.size()>=rush.getPosition())
+        orderedArray.add(rush.getPosition(), rush);
+      else
+        orderedArray.add(rush);
     }
     rushes.clear();
     rushes.addAll(orderedArray);

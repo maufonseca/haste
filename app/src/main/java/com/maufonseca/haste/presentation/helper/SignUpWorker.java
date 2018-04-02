@@ -44,7 +44,7 @@ public class SignUpWorker {
             SharedPreferences.Editor editor = home.getPreferences(Context.MODE_PRIVATE).edit();
             editor.putString(Constants.USER_ID, user.getUid());
             editor.apply();
-            home.updateUI();
+            home.getRushesForUser();
           } else {
             // If sign in fails, display a message to the user.
             home.showToast(home.getText(R.string.error_silent_auth));
