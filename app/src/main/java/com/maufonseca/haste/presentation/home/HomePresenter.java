@@ -56,8 +56,8 @@ public class HomePresenter {
 
   public void getRushesForUser() {
     home.showProgressBar();
-
     rushesRef
+        .orderBy("position")
         .get()
         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
           @Override
