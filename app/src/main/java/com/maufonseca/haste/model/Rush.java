@@ -47,4 +47,7 @@ public class Rush {
   public void setPosition(int position) {
     this.position = position;
   }
+  public void setPosition(long position) {
+    this.position = (int)position;
+  }
 }

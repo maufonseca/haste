@@ -40,6 +40,10 @@ public class RushList {
     rushes.add(element);
   }
 
+  public void add(int index, Rush element) {
+    rushes.add(element);
+  }
+
   public void remove(int index) {
     rushes.remove(index);
   }

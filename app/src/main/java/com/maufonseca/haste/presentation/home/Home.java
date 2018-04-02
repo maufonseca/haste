@@ -59,9 +59,7 @@ public class Home extends AppCompatActivity {
     };
     ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
     itemTouchHelper.attachToRecyclerView(recyclerView);
-
-    TaskListEventListener taskListEventListener = new TaskListEventListener(this, rushes, adapter);
-    homePresenter = new HomePresenter(this, rushes, signUpWorker, taskListEventListener);
+    homePresenter = new HomePresenter(this, rushes, signUpWorker);
     homePresenter.getCurrentUser();
   }
 
@@ -71,9 +69,8 @@ public class Home extends AppCompatActivity {
     setupNewRushBox();
   }
 
-  public void updateUI(FirebaseUser user) {
-    if(user!=null)
-      homePresenter.setupFirebaseRealtimeDB(user.getUid());
+  public void updateUI() {
+    homePresenter.getRushesForUser();
   }
 
   private void setupNewRushBox() {
@@ -86,6 +83,10 @@ public class Home extends AppCompatActivity {
 
   public void hideProgressBar() {
     progressBar.setVisibility(View.GONE);
+  }
+
+  public void refreshList() {
+    adapter.notifyDataSetChanged();
   }
 
   public void showToast(CharSequence message) {
