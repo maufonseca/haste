@@ -39,13 +39,13 @@ public class TaskAdapter extends RecyclerView.Adapter {
   @Override
   public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cell_task, parent, false);
-    return new Holder(view);
+    return new RushHolder(view);
   }
 
   @Override
   public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
     Rush currentRush = rushes.get(position);
-    Holder vh = (Holder) holder;
+    RushHolder vh = (RushHolder) holder;
     vh.description.setText(currentRush.getDescription());
     if(currentRush.getDone()) {
       vh.description.setPaintFlags(vh.description.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
@@ -57,17 +57,4 @@ public class TaskAdapter extends RecyclerView.Adapter {
     vh.layout.setTag(currentRush);
   }
 
-  private class Holder extends RecyclerView.ViewHolder {
-    ImageView checkmark;
-    TextView description;
-    LinearLayout layout;
-
-    public Holder(View itemView) {
-      super(itemView);
-      layout = itemView.findViewById(R.id.cell_layout);
-      checkmark = itemView.findViewById(R.id.check_image);
-      description = itemView.findViewById(R.id.description_textview);
-
-    }
-  }
 }
