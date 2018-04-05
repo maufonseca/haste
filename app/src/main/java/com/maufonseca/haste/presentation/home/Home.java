@@ -24,7 +24,6 @@ public class Home extends AppCompatActivity {
   SwipeRefreshLayout swipeRefreshLayout;
   TaskAdapter adapter;
   EditText fastCreateEditText;
-  SignUpWorker signUpWorker;
   ProgressBar progressBar;
   HomePresenter homePresenter;
 
@@ -32,7 +31,6 @@ public class Home extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_home);
-    signUpWorker = SignUpWorker.getInstance();
     fastCreateEditText = findViewById(R.id.new_task_edit_text);
     rushes = new RushList();
     adapter = new TaskAdapter(this, rushes);
@@ -63,7 +61,7 @@ public class Home extends AppCompatActivity {
     };
     ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
     itemTouchHelper.attachToRecyclerView(recyclerView);
-    homePresenter = new HomePresenter(this, rushes, signUpWorker);
+    homePresenter = new HomePresenter(this, rushes);
     swipeRefreshLayout = findViewById(R.id.swipe_refresh);
     swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
       @Override

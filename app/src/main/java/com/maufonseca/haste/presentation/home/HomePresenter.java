@@ -4,21 +4,19 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 import com.maufonseca.haste.R;
+import com.maufonseca.haste.infrastructure.StorageWorker;
 import com.maufonseca.haste.model.Rush;
 import com.maufonseca.haste.model.RushList;
+import com.maufonseca.haste.presentation.helper.NetworkWorker;
 import com.maufonseca.haste.presentation.helper.SignUpWorker;
 
 import java.util.HashMap;
@@ -32,24 +30,27 @@ public class HomePresenter {
   private RushList rushes;
   private Home home;
   private FirebaseUser currentUser;
-  private SignUpWorker signUpWorker;
   private FirebaseFirestore database;
   private CollectionReference rushesRef;
   private FirebaseAnalytics firebaseAnalytics;
 
-  HomePresenter(Home home, RushList rushes, SignUpWorker signUpWorker) {
+  HomePresenter(Home home, RushList rushes) {
     this.home = home;
-    this.signUpWorker = signUpWorker;
     firebaseAnalytics = FirebaseAnalytics.getInstance(home);
     database = FirebaseFirestore.getInstance();
     this.rushes = rushes;
   }
 
   void getCurrentUser() {
-    currentUser = signUpWorker.getCurrentUser();
+    currentUser = SignUpWorker.getInstance().getCurrentUser();
     if(currentUser==null) {
-      home.showProgressBar();
-      signUpWorker.signInAnonymously(this);
+      if(NetworkWorker.getInstance().isOnline(home)) {
+        home.showProgressBar();
+        SignUpWorker.getInstance().signInAnonymously(this);
+      } else { ///offline
+        home.showEmptyState();
+        home.stopSwipeRefresh(); //maybe it is up
+      }
     } else {
       setupDatabase();
       getRushesForUser();
@@ -73,37 +74,27 @@ public class HomePresenter {
 
   private void setupDatabase() {
     rushesRef = database
-      .collection("users/"+signUpWorker.getCurrentUser().getUid()+"/rushes");
+      .collection("users/"+SignUpWorker.getInstance().getCurrentUser().getUid()+"/rushes");
   }
 
   void getRushesForUser() {
     home.showProgressBar();
-    rushesRef
-      .orderBy("position")
-      .get()
-      .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-        @Override
-        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-          home.hideProgressBar();
-          home.stopSwipeRefresh();
-          if (task.isSuccessful()) {
-            rushes.clear();
-            for (DocumentSnapshot document : task.getResult()) {
-              Log.d("FB", document.getId() + " => " + document.getData());
-              Rush rush = new Rush();
-              rush.setDescription((String) document.getData().get("description"));
-              rush.setDone((boolean)document.getData().get("done"));
-              rush.setPosition((long)document.getData().get("position"));
-              rush.setId(document.getId());
-              rushes.add(rush.getPosition(), rush);
-              home.refreshList();
-            }
-          } else {
-            Log.w("FB", "Error getting documents.", task.getException());
-          }
-        }
-      });
+    StorageWorker.getInstance().getRushes(this, rushesRef);
   }
+
+  public void onRushesArrived(RushList newRushes) {
+    home.hideProgressBar();
+    home.stopSwipeRefresh();
+    rushes.replaceAll(newRushes);
+    home.refreshList();
+  }
+
+  public void onError(String message, Exception e) {
+    Log.w("FB", message, e);
+    home.hideProgressBar();
+    home.stopSwipeRefresh();
+  }
+
   void createRush(final String description) {
     home.showProgressBar();
 

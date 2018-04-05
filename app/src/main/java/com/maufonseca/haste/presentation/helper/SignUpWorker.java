@@ -49,10 +49,9 @@ public class SignUpWorker {
   }
 
   public void signOut(final Home home) {
-    if(NetworkWorker.getInstance().isOnline(home)) {
-      firebaseAuth.signOut();
-      //firebaseAnalytics = FirebaseAnalytics.getInstance(home);
-      //firebaseAnalytics.logEvent("anonymous_out",null);
-    }
+    firebaseAuth.signOut();
+    //firebaseAnalytics = FirebaseAnalytics.getInstance(home);
+    //firebaseAnalytics.logEvent("anonymous_out",null);
   }
+
 }

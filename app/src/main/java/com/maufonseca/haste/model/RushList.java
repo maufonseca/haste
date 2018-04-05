@@ -58,4 +58,11 @@ public class RushList {
   public void clear() {
     rushes.clear();
   }
+
+  public void replaceAll(RushList newRushes) {
+    rushes.clear();
+    for(int i=0; i<newRushes.size(); i++) {
+      rushes.add(newRushes.get(i));
+    }
+  }
 }
