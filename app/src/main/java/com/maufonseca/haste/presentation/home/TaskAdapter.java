@@ -7,15 +7,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.maufonseca.haste.R;
 import com.maufonseca.haste.model.Rush;
 import com.maufonseca.haste.model.RushList;
-
-import java.util.ArrayList;
 
 /**
  * Created by mauricio on 26/03/18.

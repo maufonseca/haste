@@ -1,5 +1,6 @@
 package com.maufonseca.haste.presentation.home;
 
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,6 +10,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
+import com.maufonseca.haste.BuildConfig;
 import com.maufonseca.haste.R;
 import com.maufonseca.haste.model.Rush;
 import com.maufonseca.haste.model.RushList;
@@ -18,6 +21,7 @@ import com.maufonseca.haste.presentation.helper.SignUpWorker;
 public class Home extends AppCompatActivity {
   RushList rushes;
   RecyclerView recyclerView;
+  SwipeRefreshLayout swipeRefreshLayout;
   TaskAdapter adapter;
   EditText fastCreateEditText;
   SignUpWorker signUpWorker;
@@ -36,7 +40,6 @@ public class Home extends AppCompatActivity {
     recyclerView = findViewById(R.id.task_recyclerview);
     recyclerView.setAdapter(adapter);
     recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
     ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0,  ItemTouchHelper.RIGHT) {
       private int pos1, pos2;
       @Override
@@ -61,6 +64,13 @@ public class Home extends AppCompatActivity {
     ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
     itemTouchHelper.attachToRecyclerView(recyclerView);
     homePresenter = new HomePresenter(this, rushes, signUpWorker);
+    swipeRefreshLayout = findViewById(R.id.swipe_refresh);
+    swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+      @Override
+      public void onRefresh() {
+        homePresenter.getCurrentUser();
+      }
+    });
     homePresenter.getCurrentUser();
   }
 
@@ -70,8 +80,8 @@ public class Home extends AppCompatActivity {
     setupNewRushBox();
   }
 
-  public void getRushesForUser() {
-    homePresenter.getRushesForUser();
+  public void showEmptyState() {
+
   }
 
   private void setupNewRushBox() {
@@ -86,18 +96,33 @@ public class Home extends AppCompatActivity {
     progressBar.setVisibility(View.GONE);
   }
 
+  public void stopSwipeRefresh() {
+    swipeRefreshLayout.setRefreshing(false);
+  }
+
   public void refreshList() {
     adapter.notifyDataSetChanged();
+  }
+
+  public void scrollToEnd(){
+    recyclerView.scrollToPosition(adapter.getItemCount()-1);
+  }
+
+  public void clearTextBox() {
+    fastCreateEditText.setText("");
   }
 
   public void showToast(CharSequence message) {
     Toast.makeText(Home.this, message, Toast.LENGTH_SHORT).show();
   }
 
+  public void showVersion(View v) {
+    showToast(getString(R.string.app_name) +" v"+ BuildConfig.VERSION_NAME);
+  }
+
   public void createRush(View v) {
     if(!fastCreateEditText.getText().toString().trim().isEmpty()) {
       homePresenter.createRush(fastCreateEditText.getText().toString());
-      fastCreateEditText.setText("");
     }
   }
 

@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+  <color name="mainColor">@color/blueGray400</color>
+  <color name="button1Color">@color/blueGray800</color>
+  <color name="button2Color">@color/blueGray600</color>
+  <color name="doneColor">@color/lightGreen200</color>
+  <color name="undoneColor">@color/blueGray050</color>
+
   <color name="blueGray050">#ECEFF1</color>
   <color name="blueGray050alpha">#E0ECEFF1</color>
   <color name="blueGray100">#CFD8DC</color>

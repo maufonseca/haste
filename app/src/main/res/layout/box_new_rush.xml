@@ -23,7 +23,7 @@
     app:elevation="0dp"
     app:rippleColor="@color/blueGray900"
     android:tint="@color/blueGray050"
-    app:backgroundTint="@color/lightGreen600"
+    app:backgroundTint="@color/mainColor"
     android:src="@drawable/ic_file_upload_black_24dp"
     android:onClick="createRush"/>
   <EditText

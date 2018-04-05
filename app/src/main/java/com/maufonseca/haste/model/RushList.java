@@ -54,4 +54,8 @@ public class RushList {
   public int size() {
     return rushes.size();
   }
+
+  public void clear() {
+    rushes.clear();
+  }
 }
