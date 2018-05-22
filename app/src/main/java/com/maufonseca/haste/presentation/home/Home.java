@@ -69,12 +69,13 @@ public class Home extends AppCompatActivity {
         homePresenter.getCurrentUser();
       }
     });
-    homePresenter.getCurrentUser();
+
   }
 
   @Override
   protected void onStart() {
     super.onStart();
+    homePresenter.getCurrentUser();
     setupNewRushBox();
   }
 
