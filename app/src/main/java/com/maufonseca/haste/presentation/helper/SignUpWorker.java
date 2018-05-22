@@ -7,7 +7,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.maufonseca.haste.presentation.home.Home;
+import com.maufonseca.haste.presentation.home.HomeActivity;
 import com.maufonseca.haste.presentation.home.HomePresenter;
 
 /**
@@ -48,9 +48,9 @@ public class SignUpWorker {
     return firebaseAuth.getCurrentUser();
   }
 
-  public void signOut(final Home home) {
+  public void signOut(final HomeActivity homeActivity) {
     firebaseAuth.signOut();
-    //firebaseAnalytics = FirebaseAnalytics.getInstance(home);
+    //firebaseAnalytics = FirebaseAnalytics.getInstance(homeActivity);
     //firebaseAnalytics.logEvent("anonymous_out",null);
   }
 

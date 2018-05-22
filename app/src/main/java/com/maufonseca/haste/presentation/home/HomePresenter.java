@@ -28,15 +28,15 @@ import java.util.Map;
 
 public class HomePresenter {
   private RushList rushes;
-  private Home home;
+  private HomeActivity homeActivity;
   private FirebaseUser currentUser;
   private FirebaseFirestore database;
   private CollectionReference rushesRef;
   private FirebaseAnalytics firebaseAnalytics;
 
-  HomePresenter(Home home, RushList rushes) {
-    this.home = home;
-    firebaseAnalytics = FirebaseAnalytics.getInstance(home);
+  HomePresenter(HomeActivity homeActivity, RushList rushes) {
+    this.homeActivity = homeActivity;
+    firebaseAnalytics = FirebaseAnalytics.getInstance(homeActivity);
     database = FirebaseFirestore.getInstance();
     this.rushes = rushes;
   }
@@ -44,12 +44,12 @@ public class HomePresenter {
   void getCurrentUser() {
     currentUser = SignUpWorker.getInstance().getCurrentUser();
     if(currentUser==null) {
-      if(NetworkWorker.getInstance().isOnline(home)) {
-        home.showProgressBar();
+      if(NetworkWorker.getInstance().isOnline(homeActivity)) {
+        homeActivity.showProgressBar();
         SignUpWorker.getInstance().signInAnonymously(this);
       } else { ///offline
-        home.showEmptyState();
-        home.stopSwipeRefresh(); //maybe it is up
+        homeActivity.showEmptyState();
+        homeActivity.stopSwipeRefresh(); //maybe it is up
       }
     } else {
       setupDatabase();
@@ -58,18 +58,18 @@ public class HomePresenter {
   }
 
   public void anonymousSignInSucceeded() {
-    home.showToast(home.getText(R.string.success_silent_auth));
+    homeActivity.showToast(homeActivity.getText(R.string.success_silent_auth));
     firebaseAnalytics.logEvent("anonymous_in_success",null);
     setupDatabase();
     getRushesForUser();
   }
 
   public void anonymousSignInFailed() {
-    home.hideProgressBar();
-    home.showToast(home.getText(R.string.error_silent_auth));
+    homeActivity.hideProgressBar();
+    homeActivity.showToast(homeActivity.getText(R.string.error_silent_auth));
     firebaseAnalytics.logEvent("anonymous_in_fail",null);
-    home.showEmptyState();
-    home.stopSwipeRefresh();
+    homeActivity.showEmptyState();
+    homeActivity.stopSwipeRefresh();
   }
 
   private void setupDatabase() {
@@ -78,25 +78,25 @@ public class HomePresenter {
   }
 
   void getRushesForUser() {
-    home.showProgressBar();
+    homeActivity.showProgressBar();
     StorageWorker.getInstance().getRushes(this, rushesRef);
   }
 
   public void onRushesArrived(RushList newRushes) {
-    home.hideProgressBar();
-    home.stopSwipeRefresh();
+    homeActivity.hideProgressBar();
+    homeActivity.stopSwipeRefresh();
     rushes.replaceAll(newRushes);
-    home.refreshList();
+    homeActivity.refreshList();
   }
 
   public void onError(String message, Exception e) {
     Log.w("FB", message, e);
-    home.hideProgressBar();
-    home.stopSwipeRefresh();
+    homeActivity.hideProgressBar();
+    homeActivity.stopSwipeRefresh();
   }
 
   void createRush(final String description) {
-    home.showProgressBar();
+    homeActivity.showProgressBar();
 
     Map<String, Object> rush = new HashMap<>();
     rush.put("description", description);
@@ -115,16 +115,16 @@ public class HomePresenter {
           newRush.setPosition(rushes.size());
           newRush.setId(documentReference.getId());
           rushes.add(newRush);
-          home.clearTextBox();
-          home.refreshList();
-          home.hideProgressBar();
-          home.scrollToEnd();
+          homeActivity.clearTextBox();
+          homeActivity.refreshList();
+          homeActivity.hideProgressBar();
+          homeActivity.scrollToEnd();
         }
       })
       .addOnFailureListener(new OnFailureListener() {
         @Override
         public void onFailure(@NonNull Exception e) {
-          home.hideProgressBar();
+          homeActivity.hideProgressBar();
           Log.w("FB", "Error adding document", e);
         }
       });
@@ -132,7 +132,7 @@ public class HomePresenter {
 
   void deleteRush(int position) {
     final int rushPosition = position;
-    home.showProgressBar();
+    homeActivity.showProgressBar();
     Rush rush = rushes.get(position);
     rushesRef
       .document(rush.getId())
@@ -142,14 +142,14 @@ public class HomePresenter {
         public void onSuccess(Void aVoid) {
           Log.d("FB", "DocumentSnapshot deleted with position: " + rushPosition);
           rushes.remove(rushPosition);
-          home.refreshList();
-          home.hideProgressBar();
+          homeActivity.refreshList();
+          homeActivity.hideProgressBar();
         }
       })
       .addOnFailureListener(new OnFailureListener() {
         @Override
         public void onFailure(@NonNull Exception e) {
-          home.hideProgressBar();
+          homeActivity.hideProgressBar();
           Log.w("FB", "Error adding document", e);
         }
       });
@@ -157,8 +157,8 @@ public class HomePresenter {
 
   void checkRush(final Rush tappedRush) {
     tappedRush.setDone(!tappedRush.getDone());
-    home.refreshList();
-    home.showProgressBar();
+    homeActivity.refreshList();
+    homeActivity.showProgressBar();
     Map<String, Object> rush = new HashMap<>();
     rush.put("done", tappedRush.getDone());
     rushesRef
@@ -168,7 +168,7 @@ public class HomePresenter {
         @Override
         public void onSuccess(Void aVoid) {
           Log.d("FB", "DocumentSnapshot successfully written!");
-          home.hideProgressBar();
+          homeActivity.hideProgressBar();
         }
       })
       .addOnFailureListener(new OnFailureListener() {
@@ -176,17 +176,17 @@ public class HomePresenter {
         public void onFailure(@NonNull Exception e) {
           Log.w("FB", "Error writing document", e);
           tappedRush.setDone(!tappedRush.getDone());
-          home.refreshList();
-          home.hideProgressBar();
+          homeActivity.refreshList();
+          homeActivity.hideProgressBar();
         }
       });
   }
 
   public AppCompatActivity getActivity() {
-    return home;
+    return homeActivity;
   }
   void changePositions(int pos1, int pos2) {
     rushes.changeRushes(pos1, pos2);
-    home.refreshList();
+    homeActivity.refreshList();
   }
 }

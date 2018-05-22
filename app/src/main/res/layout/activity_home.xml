@@ -5,7 +5,7 @@
   android:layout_height="match_parent"
   android:background="@color/blueGray050"
   android:focusableInTouchMode="true"
-  tools:context=".presentation.home.Home">
+  tools:context=".presentation.home.HomeActivity">
 
   <include layout="@layout/box_new_rush"/>
 

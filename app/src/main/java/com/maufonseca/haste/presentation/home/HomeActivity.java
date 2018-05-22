@@ -16,9 +16,8 @@ import com.maufonseca.haste.R;
 import com.maufonseca.haste.model.Rush;
 import com.maufonseca.haste.model.RushList;
 import com.maufonseca.haste.presentation.helper.RushBoxWorker;
-import com.maufonseca.haste.presentation.helper.SignUpWorker;
 
-public class Home extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity {
   RushList rushes;
   RecyclerView recyclerView;
   SwipeRefreshLayout swipeRefreshLayout;
@@ -66,6 +65,7 @@ public class Home extends AppCompatActivity {
     swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
       @Override
       public void onRefresh() {
+        stopSwipeRefresh();
         homePresenter.getCurrentUser();
       }
     });
@@ -112,7 +112,7 @@ public class Home extends AppCompatActivity {
   }
 
   public void showToast(CharSequence message) {
-    Toast.makeText(Home.this, message, Toast.LENGTH_SHORT).show();
+    Toast.makeText(HomeActivity.this, message, Toast.LENGTH_SHORT).show();
   }
 
   public void showVersion(View v) {
